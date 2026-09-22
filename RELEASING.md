@@ -2,10 +2,10 @@
 
 ## 发布信息
 
-作者：`JTY`；邮箱：`1422025039@qq.com`；首发版本：`0.0.1`；许可证：`MIT`。Git 仓库地址待提供。
-`Simplification.podspec.template` 是待填写的模板，不能直接发布。
+作者：`JTY`；邮箱：`1422025039@qq.com`；首发版本：`0.0.1`；许可证：`MIT`。Git 仓库地址：`https://github.com/jtyXcode/Simplification`。
+根目录已包含 `Simplification.podspec`，可直接被 CocoaPods 识别。
 
-1. 填写模板中的 `REPOSITORY_URL` 和 `REPOSITORY_GIT_URL`，将文件改名为 `Simplification.podspec`。
+1. 确认 `Simplification.podspec` 中的仓库地址和版本号，发布前确保远程仓库存在对应版本标签。
 2. 确认根目录中的 MIT `LICENSE` 文件和作者信息。
 3. 仓库根目录必须包含 `Package.swift`、`Sources`、`Tests`、`Simplification.podspec` 和 `LICENSE`。
 

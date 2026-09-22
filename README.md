@@ -6,7 +6,7 @@
 
 工程已包含 Swift Package Manager 清单，可通过 Xcode 添加本地 Package 使用。远程版本尚未发布；确定仓库地址及版本标签后，即可通过仓库 URL 添加依赖。
 
-CocoaPods 配置模板见 `Simplification.podspec.template`。发布准备、验证和上传步骤见 [发布说明](RELEASING.md)。
+CocoaPods 配置见 `Simplification.podspec`。发布准备、验证和上传步骤见 [发布说明](RELEASING.md)。
 
 ## 使用
 
