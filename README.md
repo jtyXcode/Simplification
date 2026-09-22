@@ -2,11 +2,78 @@
 
 支持 Swift 5.7+ 和 Swift 6 的依赖注入容器，支持 iOS 13+、macOS 10.15+。最低工具链为 Swift 5.7（Xcode 14）。Swift 5 工具链使用 Swift 5 语言模式，Swift 6 工具链自动使用 Swift 6 严格并发模式。
 
-## 安装与发布
+## 集成
 
-工程已包含 Swift Package Manager 清单，可通过 Xcode 添加本地 Package 使用。远程版本尚未发布；确定仓库地址及版本标签后，即可通过仓库 URL 添加依赖。
+CocoaPods 和 Swift Package Manager（SPM）任选一种，避免在同一 Target 中重复引入。以下版本示例使用 `0.0.1`：远程集成需要仓库已推送对应标签；通过 CocoaPods 公共源安装还需要完成 Trunk 发布。尚未发布时可使用本地路径集成。
 
-CocoaPods 配置见 `Simplification.podspec`。发布准备、验证和上传步骤见 [发布说明](RELEASING.md)。
+### CocoaPods
+
+在应用工程的 `Podfile` 中添加依赖，将 `YourApp` 替换为实际 Target 名称：
+
+```ruby
+  pod 'Simplification', '~> 0.0.1'
+```
+
+在 `Podfile` 所在目录执行：
+
+```sh
+pod install
+```
+
+安装完成后打开生成的 `.xcworkspace` 文件进行开发。
+
+如果尚未发布到 CocoaPods 公共源，可将上述 `pod` 行替换为 Git 标签依赖（远程仓库必须包含 podspec 和该标签）：
+
+```ruby
+pod 'Simplification', :git => 'https://github.com/jtyXcode/Simplification.git', :tag => '0.0.1'
+```
+
+本地开发时，也可替换为路径依赖；路径相对于 `Podfile`，应指向包含 `Simplification.podspec` 的目录：
+
+```ruby
+pod 'Simplification', :path => '../Simplification'
+```
+
+以上三种 `pod` 声明只保留一种。修改后重新运行 `pod install`。macOS 工程将平台声明改为 `platform :osx, '10.15'`。
+
+### Swift Package Manager（SPM）
+
+**通过 Xcode 集成**
+
+1. 打开应用工程，选择 **File → Add Package Dependencies…**。
+2. 输入仓库地址：`https://github.com/jtyXcode/Simplification.git`。
+3. 选择 **Up to Next Minor Version**，起始版本填写 `0.0.1`。
+4. 点击 **Add Package**，将 `Simplification` 产品添加到需要使用它的应用 Target。
+
+本地开发时，在添加 Package 的窗口中选择 **Add Local…**，选中包含 `Package.swift` 的 Simplification 根目录，再将 `Simplification` 产品添加到应用 Target。
+
+**通过 Package.swift 集成**
+
+如果使用方本身也是 Swift Package，在现有 `Package.swift` 的包依赖和 Target 依赖中分别添加：
+
+```swift
+dependencies: [
+    .package(
+        url: "https://github.com/jtyXcode/Simplification.git",
+        .upToNextMinor(from: "0.0.1")
+    )
+],
+targets: [
+    .target(
+        name: "YourTarget",
+        dependencies: [
+            .product(name: "Simplification", package: "Simplification")
+        ]
+    )
+]
+```
+
+将 `YourTarget` 替换为实际 Target 名称，并合并到现有配置中。本地集成时，将 `.package(url: …)` 声明替换为 `.package(path: "../Simplification")`；路径相对于使用方的包根目录。使用方的平台最低版本应为 iOS 13 或 macOS 10.15。
+
+### 导入与调用
+
+两种方式集成后均使用 `import Simplification`。容器 API 由 `@MainActor` 隔离，注册和解析应在主 actor 中执行，完整示例见下方「使用」。
+
 
 ## 使用
 

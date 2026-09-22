@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'Simplification'
-  s.version          = '0.0.2'
+  s.version          = '0.0.1'
   s.summary          = 'A main-actor-isolated dependency injection container for Swift.'
   s.description      = <<-DESC
     A lightweight dependency injection container with singleton, lazy singleton,
